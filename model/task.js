@@ -5,7 +5,7 @@ const task = new Task(
     {
         id: {
             type: String,  // Si usas 'wid' o similar, ajústalo
-            required: true
+            required: false
         },
         title: {
             type: String,

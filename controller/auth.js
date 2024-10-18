@@ -56,6 +56,12 @@ module.exports.login = (req, res) =>{
                 }
                 
             }
+            else{
+                return res.status(400).json({
+                    status: "fail",
+                    message: "Invalid username or password"
+                })
+            }
         } )
 
     }

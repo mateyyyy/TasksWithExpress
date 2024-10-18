@@ -1,46 +1,36 @@
 const mongo = require('mongoose');
-const Task = mongo.Schema;
+const story = require('./story');
+const schema = mongo.Schema;
 
-const task = new Task(
+const task = new schema(
     {
-        id: {
-            type: String,  // Si usas 'wid' o similar, ajústalo
-            required: false
-        },
-        title: {
+        name: {
             type: String,
             required: true
-        },
-        description: {
+          },
+          description: {
             type: String,
-            required: false,  // Puede estar vacío
-            default: ""
-        },
-        start: {
+            required: false
+          },
+          story: {
+            type: schema.Types.ObjectId,
+            ref: story,
+            required: true
+          },
+          created: {
             type: Date,
-            required: true,
-            default: Date.now
-        },
-        end: {
+            default: Date.now,
+            required: false
+          },
+          dueDate: {
             type: Date,
             required: false
-        },
-        status: {
-            type: String,
-            enum: ['pending', 'in progress', 'done'], // Valores permitidos
-            required: true
-        },
-        geo: {
-            lat: {
-                type: Number,
-                required: false  // No siempre es obligatorio
-            },
-            long: {
-                type: Number,
-                required: false  // No siempre es obligatorio
-            }
-        }
+          },
+          done: {
+            type: Boolean,
+            required: false,
+            default: false
+          }
     });
     
-    // Crear y exportar el modelo
     module.exports = mongo.model('Task', task);

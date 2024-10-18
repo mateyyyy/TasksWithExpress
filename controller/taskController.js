@@ -2,33 +2,31 @@ const Task = require('../model/task'); // Asegúrate de que Task sea el modelo, 
 
 module.exports.createTask = (req, res) => {
     const task = new Task({
-        title: req.body.title,
+        name: req.body.name,
         description: req.body.description,
         start: req.body.start,
-        end: req.body.end,
-        status: req.body.status,
-        geo: {
-            lat: req.body.geo.lat,
-            long: req.body.geo.long
-        }
+        story: req.body.story,
+        created: req.body.created,
+        dueDate: req.body.dueDate,
+        done: req.body.done
     });
 
     task.save()
-        .then(() => {
-            res.status(201).json({ message: 'Tarea creada con éxito' });
+        .then((task) => {
+            res.status(201).json({ 
+                status : 'Task successfully created',
+                message: task
+            });
         })
         .catch((err) => {
             res.status(500).json({ error: 'Error al crear la tarea' + err });
         });
 };
 
-
-
 module.exports.getTasks = (req, res) => {
     Task.find().
     then((response) => res.json(response));
 }
-
 
 module.exports.getTask = (req, res) => {
     const id = req.params.id;
@@ -43,8 +41,6 @@ module.exports.getTask = (req, res) => {
     })
 }
     
-
-
 module.exports.deleteTask = (req, res) => {
     const id = req.params.id;
     Task.findByIdAndDelete(id)
@@ -56,3 +52,20 @@ module.exports.deleteTask = (req, res) => {
     });
 }
 
+module.exports.getTasksByStory = (req, res) => {
+    Task.find({
+        story : req.params.id
+    })
+    .then((stories) => {
+        return res.status(200).json({
+            status : 'success',
+            message : stories
+        })
+    })
+    .catch((err) => {
+        return res.status(400).json({
+            status : 'fail',
+            message : err
+        })
+    })
+}

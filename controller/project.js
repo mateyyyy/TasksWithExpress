@@ -55,7 +55,7 @@ module.exports.getProjects = (req, res) => {
     then((project) => {
         return res.status(200).json({
             status : 'success',
-            projects : project
+            data : project
         })
     })
     .catch((err) => {
@@ -71,7 +71,7 @@ module.exports.getProjectById = (req, res) => {
     then((project) => {
         return res.status(200).json({
             status : 'success',
-            projects : project
+            data : project
         })
     })
     .catch((err) => {

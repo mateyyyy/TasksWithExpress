@@ -39,7 +39,7 @@ module.exports.createStory = (req, res) => {
     .then((data) => {
         return res.status(200).json({
             status : 'success',
-            message : data
+            data : data
         })
     })
     .catch((err) => {
@@ -57,7 +57,7 @@ module.exports.getStories = (req, res) => {
     .then((stories) => {
         return res.status(200).json({
             status : 'success',
-            epic : stories
+            data : stories
         })
     })
     .catch((err) => {
@@ -73,7 +73,7 @@ module.exports.getStory = (req, res) => {
     .then((response) => {
         return res.status(200).json({
             status : 'success',
-            message : response
+            data : response
         })
     })
     .catch((err) => {
@@ -89,13 +89,13 @@ module.exports.deleteStory = (req, res) => {
     .then((data) => {
         return res.status(200).json({
             status : 'Story successfully removed',
-            message : data
+            data : data
         })
     })
     .catch((err) => {
         return res.status(500).json({
             status : 'fail',
-            message : err
+            data : err
         })
     })
 }
@@ -108,13 +108,13 @@ module.exports.getStoriesByEpic = (req, res) => {
     .then((stories) => {
         return res.status(200).json({
             status : 'success',
-            message : stories
+            data : stories
         })
     })
     .catch((err) => {
         return res.status(400).json({
             status : 'fail',
-            message : err
+            data : err
         })
     })
 

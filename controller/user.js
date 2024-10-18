@@ -44,3 +44,20 @@ module.exports.addUser = (req, res) => {
           })
     }
 }
+
+
+module.exports.getUsers = (req, res) => {
+    User.find()
+    .then((users) => {
+        return res.status(200).json({
+            status : 'success',
+            data : users
+        })
+    })
+    .catch((err) => {
+        return res.status(500).json({
+            status : 'fail',
+            message : err
+        })
+    })
+}

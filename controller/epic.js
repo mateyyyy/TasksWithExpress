@@ -49,7 +49,7 @@ module.exports.getEpics = (req, res) => {
     .then((epic) => {
         return res.status(200).json({
             status : 'success',
-            epic : epic
+            data : epic
         })
     })
     .catch((err) => {
@@ -65,13 +65,13 @@ module.exports.getEpic = (req, res) => {
     .then((response) => {
         return res.status(200).json({
             status : 'success',
-            message : response
+            data : response
         })
     })
     .catch((err) => {
         return res.status(500).json({
             status : 'fail',
-            message : err
+            data : err
         })
     })
 }
@@ -80,7 +80,7 @@ module.exports.deleteEpic = (req, res) => {
     Epic.findByIdAndDelete(req.params.id)
     .then((data) => {
         return res.status(200).json({
-            status : 'Epic successfully removed',
+            status : 'success',
             message : data
         })
     })
@@ -99,13 +99,13 @@ module.exports.getEpicsByProject = (req, res) => {
     .then((epics) => {
         return res.status(200).json({
             status : 'success',
-            message : epics
+            data : epics
         })
     })
     .catch((err) => {
         return res.status(400).json({
             status : 'fail',
-            message : err
+            data : err
         })
     })
 

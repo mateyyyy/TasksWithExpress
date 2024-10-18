@@ -9,6 +9,7 @@ const { login } = require('./controller/auth');
 const project = require('./routes/project');
 const epic = require('./routes/epic');
 const story = require('./routes/story');
+const cors = require("cors");
 
 
 console.log(process.env.PORT)
@@ -26,6 +27,7 @@ mongo.connect(process.env.MONGOCONEXION,{
     console.error("Error al conectar con MongoDB:", error);
 });
 
+app.use(cors());
 app.use(express.json());
 app.use('/tasks',taskRoutes);
 app.use('/users',user);

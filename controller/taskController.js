@@ -15,7 +15,7 @@ module.exports.createTask = (req, res) => {
         .then((task) => {
             res.status(201).json({ 
                 status : 'Task successfully created',
-                message: task
+                data: task
             });
         })
         .catch((err) => {
@@ -25,7 +25,18 @@ module.exports.createTask = (req, res) => {
 
 module.exports.getTasks = (req, res) => {
     Task.find().
-    then((response) => res.json(response));
+    then((response) => {
+        return res.status(200).json({
+            status : 'success',
+            data : response
+        })
+    })
+    .catch((err) => {
+        return res.status(400).json({
+            status : 'fail',
+            data : err
+        })
+    })
 }
 
 module.exports.getTask = (req, res) => {
@@ -48,7 +59,10 @@ module.exports.deleteTask = (req, res) => {
         if (!response) {
             return res.status(404).send('Tarea no encontrada');
         }
-        res.send('Tarea eliminada');
+        res.status(200).json({
+            status : 'success',
+            message : 'Task ' + id + 'was deleted'
+        });
     });
 }
 
@@ -59,13 +73,13 @@ module.exports.getTasksByStory = (req, res) => {
     .then((stories) => {
         return res.status(200).json({
             status : 'success',
-            message : stories
+            data : stories
         })
     })
     .catch((err) => {
         return res.status(400).json({
             status : 'fail',
-            message : err
+            data : err
         })
     })
 }

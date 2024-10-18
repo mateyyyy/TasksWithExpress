@@ -1,14 +1,16 @@
+const { checkToken } = require('../controller/auth');
 const {createTask, getTasks, getTask, deleteTask} = require('../controller/taskController');
 const express = require('express');
 const router = express.Router();
 
-router.post('/',createTask);
 
-router.get('/',getTasks);
+router.post('/', checkToken, createTask);
 
-router.get('/:id',getTask);
+router.get('/', checkToken, getTasks);
 
-router.delete('/:id',deleteTask);
+router.get('/:id', checkToken, getTask);
+
+router.delete('/:id', checkToken , deleteTask);
 
 
 module.exports = router;

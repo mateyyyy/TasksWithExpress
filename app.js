@@ -4,6 +4,10 @@ const env = require('dotenv').config();
 const port = process.env.PORT;
 const mongo = require('mongoose');
 const taskRoutes = require('./routes/taskRouter');
+const user = require('./routes/user');
+const { login } = require('./controller/auth');
+
+
 
 console.log(process.env.PORT)
 
@@ -22,13 +26,12 @@ mongo.connect(process.env.MONGOCONEXION,{
 
 app.use(express.json());
 app.use('/tasks',taskRoutes);
+app.use('/users',user);
+app.post('/login', login);
 
-app.get('/',
-    (req, res) => res.send('Hola como te va')
-)
 
 app.get('/projects',
-    (req, res ,next) => (
+    (req, res, next) => (
         console.log(req),
         res.send('asd'))
 )

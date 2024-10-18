@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "TaskBrunoMongoDB",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

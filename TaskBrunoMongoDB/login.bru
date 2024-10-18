@@ -1,0 +1,18 @@
+meta {
+  name: login
+  type: http
+  seq: 7
+}
+
+post {
+  url: https://taskswithexpress.onrender.com/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username" : "roberto",
+    "password" : "1234"
+  }
+}

@@ -1,0 +1,28 @@
+meta {
+  name: postAProject
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://taskswithexpress.onrender.com/tasks
+  body: json
+  auth: none
+}
+
+headers {
+  auth: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOnsiZmlyc3QiOiJyb2JlcnQiLCJsYXN0IjoiY3VjY2l0aW5pIn0sIl9pZCI6IjY3MTFjMDk5MTI4ZGQwN2Y2MTA1ZDgwMCIsInVzZXJuYW1lIjoicm9iZXJ0byIsImVtYWlsIjoicm9iZXJ0QGdtYWlsLmNvbSIsIl9fdiI6MH0sImlhdCI6MTcyOTIxNjY5NCwiZXhwIjoxNzI5MzAzMDk0fQ.q4EB62sybdzxmPY-pD96QE0sJ0ZcjoHXwGA-FtGilfk
+}
+
+body:json {
+  {
+      "title": "meu deus",
+      "description": "nova tarea",
+      "start": "5/8/2024",
+      "end": "6/12/2024",
+      "status": "done",
+      "geo" :{
+        "long": 21.23,
+        "lat": -4.4123}
+  }
+}

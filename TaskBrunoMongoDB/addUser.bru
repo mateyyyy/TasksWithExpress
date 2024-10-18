@@ -1,0 +1,23 @@
+meta {
+  name: addUser
+  type: http
+  seq: 6
+}
+
+post {
+  url: https://taskswithexpress.onrender.com/users/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username" : "roberto",
+    "password" : "1234",
+    "email" : "robert@gmail.com",
+    "name" : {
+      "first" : "robert",
+      "last" : "cuccitini"
+    }
+  }
+}

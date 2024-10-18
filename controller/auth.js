@@ -55,7 +55,7 @@ module.exports.login = (req, res) =>{
                     })
                 }
             }
-            return res.status(500).json({
+            return res.status(400).json({
                     status: "fail",
                     message: "Invalid username or password"
                 })            

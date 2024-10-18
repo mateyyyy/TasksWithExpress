@@ -49,13 +49,17 @@ module.exports.login = (req, res) =>{
                 }
                 else
                 {
-                    return res.status(200).json({
+                    return res.status(401).json({
                         status: "fail",
                         message: "Unauthorized"
                     })
                 }
-                
             }
+            return res.status(500).json({
+                    status: "fail",
+                    message: "Invalid username or password"
+                })            
+            
         } )
 
     }

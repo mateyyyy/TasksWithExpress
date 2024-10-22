@@ -61,3 +61,64 @@ module.exports.getUsers = (req, res) => {
         })
     })
 }
+
+
+module.exports.getUser = (req, res) => {
+    User.findById(req.params.id)
+    .then((user) => {
+        return res.status(200).json({
+            status : 'success',
+            data : user
+        })
+    })
+    .catch((err) => {
+        return res.status(500).json({
+            status : 'fail',
+            message : err
+        })
+    })
+}
+
+module.exports.editUser = (req, res) => {
+    const userId = req.params.id;
+    const updates = {};
+    if (req.body.username) {
+        updates.username = req.body.username;
+    }
+    if (req.body.password) {
+        updates.password = hashSync(req.body.password, genSaltSync(10));
+    }
+    if (req.body.email) {
+        updates.email = req.body.email;
+    }
+    if (req.body.name) {
+        if (req.body.name.first) {
+            updates['name.first'] = req.body.name.first;
+        }
+        if (req.body.name.last) {
+            updates['name.last'] = req.body.name.last;
+        }
+    }
+
+    User.findByIdAndUpdate(userId, updates)
+        .then((updatedUser) => {
+            if (!updatedUser) {
+                return res.status(404).json({
+                    status: 'fail',
+                    message: 'Usuario no encontrado',
+                });
+            }
+            return res.status(200).json({
+                status: 'success',
+                data: updatedUser,
+            });
+        })
+        .catch((err) => {
+            return res.status(500).json({
+                status: 'fail',
+                message: 'Error al actualizar el usuario',
+                error: err.message,
+            });
+        });
+};
+

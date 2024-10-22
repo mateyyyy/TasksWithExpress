@@ -98,3 +98,35 @@ module.exports.deleteProject = (req, res) => {
         })
     })
 }
+
+
+module.exports.updateProject = (req, res) => {
+    update = {};
+    if(req.body.name){
+        update.name = req.body.name;
+    }
+    if(req.body.description){
+        update.description = req.body.description;
+    }
+
+    Project.findByIdAndUpdate(req.params.id, update)
+    .then((updatedProject) => {
+        if (!updatedProject) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Tarea no encontrado',
+            });
+        }
+        return res.status(200).json({
+            status: 'success',
+            data: updatedProject,
+        });
+    })
+    .catch((err) => {
+        return res.status(500).json({
+            status: 'fail',
+            message: 'Error al actualizar el usuario',
+            error: err.message,
+        });
+    });
+}

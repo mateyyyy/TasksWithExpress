@@ -21,6 +21,8 @@ module.exports.createProject = (req, res) => {
         })
     }
     else{
+        console.log(req.body);
+
         //termino los controles
         const project = new Project({
             name : req.body.name,

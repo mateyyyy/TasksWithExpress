@@ -119,3 +119,9 @@ module.exports.getStoriesByEpic = (req, res) => {
     })
 
 }
+
+
+module.exports.editStory = () => {
+    update = {}
+    
+}

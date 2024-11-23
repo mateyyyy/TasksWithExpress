@@ -9,8 +9,21 @@ module.exports.addUser = (req, res) => {
                 message: { body: "Username is required!" }
               })
         }
+        else if(req.body.password==null){
+            res.status(400).json({
+                status: "fail",
+                message: { body: "Password is required!" }
+              })
+        }
+        else if(req.body.email==null){
+            res.status(400).json({
+                status: "fail",
+                message: { body: "Email is required!" }
+              })
+        }
+
        
-        else{ //Si llega aca esta todo bien.
+        else{
             const user = new User({
                 username: req.body.username,
                 password: hashSync(req.body.password, genSaltSync(10)),

@@ -6,7 +6,7 @@ const { getEpicsByProject } = require('../controller/epic');
 
 router.post('/', checkToken, createProject);
 
-router.get('/', checkToken, getProjects);
+router.get('/user/:userID', checkToken, getProjects);
 
 router.get('/:id', checkToken, getProjectById);
 

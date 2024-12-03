@@ -41,7 +41,13 @@ module.exports.addUser = (req, res) => {
                 message:  user })
             })
             .catch((err) => {
-                res.status(500).json({
+                if(err.code=='11000'){
+                    return res.status(400).json({
+                        status : "fail",
+                        message: 'El nombre de usuario ya está en uso',
+                    })
+                }
+                res.status(400).json({
                     status : "fail",
                     message: err,
                 })

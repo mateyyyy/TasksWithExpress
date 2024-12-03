@@ -8,11 +8,11 @@ const project = new schema(
             type: String,
             required: true
           },
-        members: [{
+        members: {
           type: schema.Types.ObjectId,
           ref: user,
           required: true
-        }],
+        },
         description: {
           type: String,
           required: false

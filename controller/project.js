@@ -1,4 +1,5 @@
 const Project = require('../model/project');
+const Epic = require('../model/epic');
 
 module.exports.createProject = (req, res) => {
 
@@ -21,7 +22,6 @@ module.exports.createProject = (req, res) => {
         })
     }
     else{
-        console.log(req.body);
 
         //termino los controles
         const project = new Project({
@@ -53,7 +53,18 @@ module.exports.createProject = (req, res) => {
 }
 
 module.exports.getProjects = (req, res) => {
-    Project.find().
+    const userID = req.params.userID;
+
+    if (!userID) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'User ID is required',
+        });
+    }
+
+    Project.find({
+        members : userID
+    }).
     then((project) => {
         return res.status(200).json({
             status : 'success',
@@ -69,11 +80,12 @@ module.exports.getProjects = (req, res) => {
 }
 
 module.exports.getProjectById = (req, res) => {
-    Project.findById(req.params.id).
-    then((project) => {
+    Project.findById(req.params.id)
+    .then((project) => {
         return res.status(200).json({
             status : 'success',
-            data : project
+            data : project,
+            este: 'ES ESTE PAPI'
         })
     })
     .catch((err) => {
@@ -84,7 +96,16 @@ module.exports.getProjectById = (req, res) => {
     })
 }
 
-module.exports.deleteProject = (req, res) => {
+module.exports.deleteProject = async (req, res) => {
+    //Verificar que no tenga epicas
+    const epic = await Epic.findOne({project : req.params.id})
+    if(epic){
+        return res.status(400).json({
+            status : 'fail',
+            message : 'El proyecto contiene una epica...'
+        })
+    }
+    else{
     Project.findByIdAndDelete(req.params.id)
     .then((project) => {
         return res.status(200).json({
@@ -98,7 +119,8 @@ module.exports.deleteProject = (req, res) => {
             status : 'fail',
             message : err
         })
-    })
+    })}
+
 }
 
 

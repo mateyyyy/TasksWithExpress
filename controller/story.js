@@ -1,4 +1,5 @@
 const Story = require('../model/story');
+const Task = require('../model/task');
 
 module.exports.createStory = (req, res) => {
     if(req.body==undefined){
@@ -53,7 +54,9 @@ module.exports.createStory = (req, res) => {
 }
 
 module.exports.getStories = (req, res) => {
-    Story.find()
+    Story.find({
+        owner: req.params.userID
+    })
     .then((stories) => {
         return res.status(200).json({
             status : 'success',
@@ -84,11 +87,20 @@ module.exports.getStory = (req, res) => {
     })
 }
 
-module.exports.deleteStory = (req, res) => {
+module.exports.deleteStory = async (req, res) => {
+    const task = await Task.findOne({story : req.params.id})
+    if(task){
+        return res.status(400).json({
+            status : 'fail',
+            message : 'La historia contiene tareas...'
+        })
+    }
+    else{
+
     Story.findByIdAndDelete(req.params.id)
     .then((data) => {
         return res.status(200).json({
-            status : 'Story successfully removed',
+            status : 'success',
             data : data
         })
     })
@@ -98,6 +110,7 @@ module.exports.deleteStory = (req, res) => {
             data : err
         })
     })
+    }   
 }
 
 
@@ -121,7 +134,33 @@ module.exports.getStoriesByEpic = (req, res) => {
 }
 
 
-module.exports.editStory = () => {
-    update = {}
-    
+module.exports.updateStory = (req, res) => {
+    update = {};
+    if(req.body.name){
+        update.name = req.body.name;
+    }
+    if(req.body.description){
+        update.description = req.body.description;
+    }
+
+    Story.findByIdAndUpdate(req.params.id, update)
+    .then((updatedStory) => {
+        if (!updatedStory) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Historia no encontrada',
+            });
+        }
+        return res.status(200).json({
+            status: 'success',
+            data: updatedStory,
+        });
+    })
+    .catch((err) => {
+        return res.status(500).json({
+            status: 'fail',
+            message: 'Error al actualizar la historia',
+            error: err.message,
+        });
+    });
 }

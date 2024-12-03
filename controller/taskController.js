@@ -24,7 +24,9 @@ module.exports.createTask = (req, res) => {
 };
 
 module.exports.getTasks = (req, res) => {
-    Task.find().
+    Task.find({
+        
+    }).
     then((response) => {
         return res.status(200).json({
             status : 'success',
@@ -82,4 +84,43 @@ module.exports.getTasksByStory = (req, res) => {
             data : err
         })
     })
+}
+
+
+
+module.exports.updateTask = (req, res) => {
+    update = {};
+    if(req.body.name){
+        update.name = req.body.name;
+    }
+    if(req.body.description){
+        update.description = req.body.description;
+    }
+    if(req.body.dueDate){
+        update.dueDate = req.body.dueDate;
+    }
+    if(req.body.done != undefined){
+        update.done = req.body.done;
+    }
+
+    Task.findByIdAndUpdate(req.params.id, update)
+    .then((updatedTask) => {
+        if (!updatedTask) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Tarea no encontrada',
+            });
+        }
+        return res.status(200).json({
+            status: 'success',
+            data: updatedTask,
+        });
+    })
+    .catch((err) => {
+        return res.status(500).json({
+            status: 'fail',
+            message: 'Error al actualizar la tarea',
+            error: err.message,
+        });
+    });
 }

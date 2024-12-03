@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 
 
 //Verifica credenciales
-module.exports.checkToken = (req, res, next) =>{
+module.exports.checkToken = (req, res, next) => {
     const token = req.get("auth");
     jwt.verify(token, 'privateKEY', (err, message) => {
         if(err) {

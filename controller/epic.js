@@ -1,4 +1,6 @@
 const Epic = require('../model/epic');
+const Story = require('../model/story');
+
 
 module.exports.createEpic = (req, res) => {
     if(req.body==undefined){
@@ -76,7 +78,18 @@ module.exports.getEpic = (req, res) => {
     })
 }
 
-module.exports.deleteEpic = (req, res) => {
+module.exports.deleteEpic = async (req, res) => {
+
+    const story = await Story.findOne({epic : req.params.id})
+    if(story){
+        return res.status(400).json({
+            status : 'fail',
+            message : 'La epica contiene una historia...'
+        })
+    }
+    else{
+
+
     Epic.findByIdAndDelete(req.params.id)
     .then((data) => {
         return res.status(200).json({
@@ -90,6 +103,7 @@ module.exports.deleteEpic = (req, res) => {
             message : err
         })
     })
+}
 }
 
 module.exports.getEpicsByProject = (req, res) => {
@@ -109,4 +123,36 @@ module.exports.getEpicsByProject = (req, res) => {
         })
     })
 
+}
+
+
+module.exports.updateEpic = (req, res) => {
+    update = {};
+    if(req.body.name){
+        update.name = req.body.name;
+    }
+    if(req.body.description){
+        update.description = req.body.description;
+    }
+
+    Epic.findByIdAndUpdate(req.params.id, update)
+    .then((updatedProject) => {
+        if (!updatedProject) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Tarea no encontrado',
+            });
+        }
+        return res.status(200).json({
+            status: 'success',
+            data: updatedProject,
+        });
+    })
+    .catch((err) => {
+        return res.status(500).json({
+            status: 'fail',
+            message: 'Error al actualizar el usuario',
+            error: err.message,
+        });
+    });
 }
